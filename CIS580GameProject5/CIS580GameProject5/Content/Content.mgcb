@@ -1,0 +1,27 @@
+
+#----------------------------- Global Properties ----------------------------#
+
+/outputDir:bin/$(Platform)
+/intermediateDir:obj/$(Platform)
+/platform:Windows
+/config:
+/profile:Reach
+/compress:False
+
+#-------------------------------- References --------------------------------#
+
+/reference:..\..\MapGameContentExtension\obj\Debug\MapGameContentExtension.dll
+/reference:..\..\MapGameLibrary\bin\Debug\MapGameLibrary.dll
+
+#---------------------------------- Content ---------------------------------#
+
+#begin gameMap.tmx
+/importer:TileMapImporter
+/processor:TiledMapProcessor
+/build:gameMap.tmx
+
+#begin New Piskel.tsx
+/importer:TilesetImporter
+/processor:TilesetProcessor
+/build:New Piskel.tsx
+
