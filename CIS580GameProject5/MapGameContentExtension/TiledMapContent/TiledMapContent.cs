@@ -32,12 +32,5 @@ namespace MapGameContentExtension
 
         public MapTileContent[] MapTiles;
 
-        /// <summary>
-        /// Builds the tiles for this tilemap
-        /// </summary>
-        public void BuildMapTiles()
-        {
-
-        }
     }
 }

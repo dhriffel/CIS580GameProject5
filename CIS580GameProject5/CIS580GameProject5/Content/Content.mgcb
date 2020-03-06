@@ -15,13 +15,23 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin gameMap.tmx
+#begin gameMap1.tmx
 /importer:TileMapImporter
 /processor:TiledMapProcessor
-/build:gameMap.tmx
+/build:gameMap1.tmx
 
-#begin New Piskel.tsx
+#begin gameMap2.tmx
+/importer:TileMapImporter
+/processor:TiledMapProcessor
+/build:gameMap2.tmx
+
+#begin gameMap3.tmx
+/importer:TileMapImporter
+/processor:TiledMapProcessor
+/build:gameMap3.tmx
+
+#begin Terrain clone.tsx
 /importer:TilesetImporter
 /processor:TilesetProcessor
-/build:New Piskel.tsx
+/build:Terrain clone.tsx
 

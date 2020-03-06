@@ -32,7 +32,8 @@ namespace MapGameLibrary
                 var x = input.ReadInt32()*tileWidth;
                 var y = input.ReadInt32()*tileHeight;
                 var id = input.ReadInt32();
-                mapTiles[i] = new MapTile(id, tileWidth, tileHeight,x,y);
+                
+                mapTiles[i] = new MapTile(id, tileWidth, tileHeight, x, y);
             }
 
             // Construct and return the tileset

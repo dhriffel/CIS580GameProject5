@@ -15,18 +15,22 @@ namespace CIS580GameProject5
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         Tileset tileset;
-        TiledMap map;
+        TiledMap[] maps;
+        TiledMap currentMap;
+        int mapIndex = 0;
+        MousePointer mousePoint;
 
-        int scale = 4;
+        private int screenWidth = 1500;
+        private int screenHeight = 1000;
 
-        Texture2D pixel;
-        bool mouseOverTile;
-        MapTile mousedTile;
+        int scale = 3;
+
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            mousePoint = new MousePointer();
         }
 
         /// <summary>
@@ -38,19 +42,13 @@ namespace CIS580GameProject5
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            graphics.PreferredBackBufferWidth = 1500;
-            graphics.PreferredBackBufferHeight = 1000;
+            graphics.PreferredBackBufferWidth = screenWidth;
+            graphics.PreferredBackBufferHeight = screenHeight;
             graphics.ApplyChanges();
 
             IsMouseVisible = true;
-
-            pixel = new Texture2D(GraphicsDevice, 1, 1);
-            Color[] colors = new Color[1];
-            colors[0] = Color.White;
-            pixel.SetData <Color>(colors);
-
-            mouseOverTile = false;
-
+            mousePoint.Initialize(GraphicsDevice);
+            
             base.Initialize();
         }
 
@@ -62,13 +60,20 @@ namespace CIS580GameProject5
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            tileset = Content.Load<Tileset>("New Piskel");
-            map = Content.Load<TiledMap>("gameMap");
+            tileset = Content.Load<Tileset>("Terrain clone");
+            var map1 = Content.Load<TiledMap>("gameMap1");
+            var map2 = Content.Load<TiledMap>("gameMap2");
+            var map3 = Content.Load<TiledMap>("gameMap3");
 
-            for (int i = 0; i < map.Count; i++)
+            maps = new TiledMap[] { map1, map2, map3 };
+
+            for (int i = 0; i < maps.Length; i++)
             {
-                map[i].ScaleTile(scale);
+                for (int j = 0; j < maps[i].Count; j++)
+                    maps[i][j].ScaleTile(scale);
             }
+
+            currentMap = maps[mapIndex];
 
             // TODO: use this.Content to load your game content here
         }
@@ -92,27 +97,19 @@ namespace CIS580GameProject5
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            var mouseX = Mouse.GetState().X;
-            var mouseY = Mouse.GetState().Y;
-
-            Debug.WriteLine(mouseX + ":" + mouseY);
-            for (int i = 0; i < map.Count; i++)
+            if (mousePoint.Update(currentMap))
             {
-                if (Collisions.pointInRectangle(mouseX, mouseY, map[i].bounds.X, map[i].bounds.X + map[i].bounds.Width, map[i].bounds.Y, map[i].bounds.Y + map[i].bounds.Height))
+                if(mapIndex+1 < maps.Length)
                 {
-                    mousedTile = map[i];
-                    mouseOverTile = true;
-                    break;
+                    mapIndex++;
+                    currentMap = maps[mapIndex];
                 }
                 else
-                {
-                    mousedTile = null;
-                    mouseOverTile = false;
-                }
+                    Exit();
             }
 
             // TODO: Add your update logic here
-            
+
             
 
             base.Update(gameTime);
@@ -126,15 +123,12 @@ namespace CIS580GameProject5
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin();
-            if (mouseOverTile)
+
+            mousePoint.Draw(spriteBatch, tileset);
+
+            for (int i = 0; i < currentMap.Count; i++)
             {
-                spriteBatch.Draw(pixel, mousedTile.bounds, Color.Red);
-                Debug.WriteLine("OverTile");
-            }
-            else
-            for (int i = 0; i < map.Count; i++)
-            {
-                map[i].Draw(spriteBatch,tileset,Color.White);
+                currentMap[i].Draw(spriteBatch,tileset,Color.White);
             }
             
             spriteBatch.End();

@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Collisions.cs" />
+    <Compile Include="MousePointer.cs" />
     <Compile Include="TiledMap\MapTile.cs" />
     <Compile Include="TiledMap\TiledMap.cs" />
     <Compile Include="TiledMap\TiledMapReader.cs" />
